@@ -1,18 +1,20 @@
 <template>
   <div>
-    <h2>{{ viewName }}</h2>
+    <ImageCarousel/>
   </div>
 </template>
 
 <script>
+import ImageCarousel from '../components/ImageCarousel.vue';
 export default {
   name: "Home",
 
-  components: {},
+  components: {ImageCarousel,},
 
   data() {
     return {
       viewName: "Home Component",
+
     };
   },
 };
