@@ -1,0 +1,23 @@
+<template>
+  <div>
+    <h2>{{ viewName }}</h2>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Home",
+
+  components: {},
+
+  data() {
+    return {
+      viewName: "Home Component",
+    };
+  },
+};
+</script>
+
+
+<style scoped>
+</style>
