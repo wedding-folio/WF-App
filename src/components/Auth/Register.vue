@@ -39,9 +39,9 @@ export default {
     handleSubmit(event) {
       event.preventDefault();
       this.errors = [];
-      const [error, errors] = this.validateForm();
+      const [hasError, errors] = this.validateForm();
 
-      if (!error) {
+      if (!hasError) {
         // TODO: send data to API for registration here
         console.log("FORM IS GOOOOD");
       } else {
