@@ -1,15 +1,16 @@
 <template>
   <div>
-    <ImageCarousel/>
+    <PostCardsView/>
   </div>
 </template>
 
 <script>
-import ImageCarousel from '../components/ImageCarousel.vue';
+import PostCardsView from '../components/Cards/PostCardsView.vue';
+
 export default {
   name: "Home",
 
-  components: {ImageCarousel,},
+  components: { PostCardsView },
 
   data() {
     return {
