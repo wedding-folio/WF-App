@@ -5,6 +5,11 @@ import Home from "./views/Home.vue";
 import Auth from "./views/Authentication.vue"
 import Register from "./components/Auth/Register.vue";
 import Login from "./components/Auth/Login.vue";
+import UserDashboard from "./views/User/UserDashboard"
+
+// Route Guards
+import validateToken from "./RouteGuards/userGuard";
+
 Vue.use(Router);
 
 export default new Router({
@@ -27,6 +32,11 @@ export default new Router({
           component: Register
         }
       ]
+    },
+    {
+      path: "/user",
+      component: UserDashboard,
+      beforeEnter: validateToken,
     }
 
   ]

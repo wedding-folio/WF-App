@@ -27,7 +27,7 @@ import axios from "axios";
 export default {
   name: "Register",
   data: () => ({
-    viewName: "Register",
+    viewName: "Login",
     email: "",
     password: "",
     errors: [],
@@ -53,6 +53,7 @@ export default {
             this.isLoading = !this.isLoading;
             console.log(res);
             localStorage.setItem("token", process.env.VUE_APP_DEV_TOKEN);
+            this.$router.push("/user");
           })
           .catch((err) => console.log(err));
       } else {
