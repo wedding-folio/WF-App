@@ -9,7 +9,9 @@
           type="password"
           label="Password"
         ></v-text-field>
-        <v-btn type="submit">Submit</v-btn>
+        <v-btn type="submit" :loading="isLoading" :disabled="isLoading"
+          >Submit</v-btn
+        >
       </v-form>
       <ul class="error-list">
         <li v-for="(error, index) in errors" :key="index">
@@ -21,6 +23,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Register",
   data: () => ({
@@ -28,6 +31,7 @@ export default {
     email: "",
     password: "",
     errors: [],
+    isLoading: false,
   }),
   methods: {
     handleSubmit(event) {
@@ -36,8 +40,18 @@ export default {
       const [hasError, errors] = this.validateForm();
 
       if (!hasError) {
-        // TODO: send data to API for registration here
-        console.log("FORM IS GOOOOD");
+        this.isLoading = !this.isLoading;
+        const reqObj = {
+          email: "",
+          password: this.password,
+        };
+        axios
+          .post("https://reqres.in/api/users", reqObj)
+          .then((res) => {
+            this.isLoading = !this.isLoading;
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
       } else {
         this.errors = [...errors];
       }
