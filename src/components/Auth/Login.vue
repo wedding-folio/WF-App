@@ -52,6 +52,7 @@ export default {
           .then((res) => {
             this.isLoading = !this.isLoading;
             console.log(res);
+            localStorage.setItem("token", process.env.VUE_APP_DEV_TOKEN);
           })
           .catch((err) => console.log(err));
       } else {
