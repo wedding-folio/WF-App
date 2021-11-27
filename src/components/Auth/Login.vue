@@ -41,10 +41,12 @@ export default {
 
       if (!hasError) {
         this.isLoading = !this.isLoading;
+
         const reqObj = {
-          email: "",
+          email: this.email,
           password: this.password,
         };
+
         axios
           .post("https://reqres.in/api/users", reqObj)
           .then((res) => {
