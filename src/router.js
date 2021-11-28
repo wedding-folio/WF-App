@@ -5,6 +5,7 @@ import Home from "./views/Home.vue";
 import Auth from "./views/Authentication.vue"
 import Register from "./components/Auth/Register.vue";
 import Login from "./components/Auth/Login.vue";
+import User from "./views/User/User.vue"
 import UserDashboard from "./views/User/UserDashboard"
 
 // Route Guards
@@ -35,8 +36,14 @@ export default new Router({
     },
     {
       path: "/user",
-      component: UserDashboard,
       beforeEnter: validateToken,
+      component: User,
+      children: [
+        {
+          path: "dashboard",
+          component: UserDashboard
+        }
+      ]
     }
 
   ]

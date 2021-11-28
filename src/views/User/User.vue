@@ -1,12 +1,12 @@
 <template>
-  <div id="user-dashboard">
-    <h1>User Dashboard</h1>
+  <div id="user">
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: "UserDashboard",
+  name: "User",
   data: () => ({}),
 };
 </script>

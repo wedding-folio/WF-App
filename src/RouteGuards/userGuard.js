@@ -14,7 +14,6 @@ export default function validateToken(to, from, next) {
       localStorage.removeItem("token")
       next("/auth/login")
     } else {
-
       next();
     }
 
