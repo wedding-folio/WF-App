@@ -15,13 +15,35 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn text to="/auth/register"> Sign Up </v-btn>
-    <v-btn text to="/auth/login"> Login </v-btn>
+    <v-btn text v-if="!isLoggedIn" to="/auth/register"> Sign Up </v-btn>
+    <v-btn text v-if="!isLoggedIn" to="/auth/login"> Login </v-btn>
+    <v-btn text v-if="isLoggedIn" @click="handleSignOut">Sign Out</v-btn>
   </v-app-bar>
 </template>
 
 <script>
+import { supabase } from "../../supabaseClient"
+import { authState, authMutations } from "../../observables/userLoginObservable";
+
 export default {
   name: "Navbar",
+  computed: {
+    isLoggedIn() {
+      return authState.isLoggedIn;
+    }
+  },
+  methods: {
+    async handleSignOut() {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+
+        authMutations.setUserLoggedIn(false);
+        await this.$router.push("/auth/login");
+      } catch (error) {
+        alert(error.error_description || error.message);
+      }
+    },
+  },
 };
 </script>

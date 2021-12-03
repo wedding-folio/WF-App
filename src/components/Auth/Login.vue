@@ -23,7 +23,10 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import { supabase } from "../../supabaseClient";
+import { authMutations } from "../../observables/userLoginObservable";
+
 export default {
   name: "Register",
   data: () => ({
@@ -34,7 +37,7 @@ export default {
     isLoading: false,
   }),
   methods: {
-    handleSubmit(event) {
+    async handleSubmit(event) {
       event.preventDefault();
       this.errors = [];
       const [hasError, errors] = this.validateForm();
@@ -47,15 +50,21 @@ export default {
           password: this.password,
         };
 
-        axios
-          .post("https://reqres.in/api/users", reqObj)
-          .then((res) => {
-            this.isLoading = !this.isLoading;
-            console.log(res);
-            localStorage.setItem("token", process.env.VUE_APP_DEV_TOKEN);
-            this.$router.push("/user/dashboard");
-          })
-          .catch((err) => console.log(err));
+        try {
+          const { error, user } = await supabase.auth.signIn(reqObj);
+          if (error) throw error;
+          
+          localStorage.setItem("user", JSON.stringify(user));
+
+          authMutations.setUserLoggedIn(true);
+
+          this.$router.push("/user/dashboard");
+        } catch (error) {
+          alert(error.error_description || error.message);
+        }
+        
+        this.isLoading = !this.isLoading;
+
       } else {
         this.errors = [...errors];
       }

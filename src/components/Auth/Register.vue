@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import axios from "axios";
-
+// import axios from "axios";
+import { supabase } from "../../supabaseClient";
 export default {
   name: "Register",
   data: () => ({
@@ -41,7 +41,7 @@ export default {
     isLoading: false,
   }),
   methods: {
-    handleSubmit(event) {
+    async handleSubmit(event) {
       event.preventDefault();
       this.errors = [];
       const [hasError, errors] = this.validateForm();
@@ -55,13 +55,17 @@ export default {
           password: this.password,
         };
 
-        axios
-          .post("https://reqres.in/api/users", reqObj)
-          .then((res) => {
-            this.isLoading = !this.isLoading;
-            console.log(res);
-          })
-          .catch((err) => console.log(err));
+        try {
+          const { error } = await supabase.auth.signUp(reqObj);
+
+          if (error) throw error;
+
+          this.isLoading = !this.isLoading;
+          this.$router.push("/");
+        } catch (error) {
+          this.isLoading = !this.isLoading;
+          alert(error.error_description || error.message);
+        }
       } else {
         this.errors = [...errors];
       }
